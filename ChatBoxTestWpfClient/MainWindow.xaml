@@ -8,5 +8,6 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Label x:Name="UserName" Content="SilnShadow"/>
+        <TextBox x:Name="Password" Text="Password" Margin="100"/>
     </Grid>
 </Window>
