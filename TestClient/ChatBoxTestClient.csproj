@@ -88,11 +88,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ChatBox.SignalServer\ChatBox.SignalServer.csproj">
-      <Project>{4082f38e-edf9-4956-9def-d4621d47bc4e}</Project>
-      <Name>ChatBox.SignalServer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

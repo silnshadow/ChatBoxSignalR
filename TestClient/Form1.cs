@@ -16,28 +16,30 @@ namespace TestClient
     {
         public HubConnection hubConnection = null;
         public IHubProxy HubProxy = null;
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
             try
             {
                 var url = ConfigurationManager.AppSettings["ChatHubEndPoint"];
                 hubConnection = new HubConnection(url);
                 HubProxy = hubConnection.CreateHubProxy("ChatHub");
-                hubConnection.Start();
+                await hubConnection.Start();
                 Execute();
 
                 var testResult = HubProxy.Invoke<string>("getdetails", "Silnshadow").Result;
-                MessageBox.Show(testResult);
+                string caption = "  Connected !  ";
+                MessageBox.Show(testResult,caption);
             }
             
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.InnerException.Message);
             }
         }
         private void Execute()
