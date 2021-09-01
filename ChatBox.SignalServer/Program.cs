@@ -24,7 +24,7 @@ namespace ChatBox.SignalServer
         public void Configuration(IAppBuilder app)
         {
             app.UseCors(CorsOptions.AllowAll);
-            app.MapSignalR("/signalchat", new HubConfiguration());
+            app.MapSignalR();
         }
     }
 }
