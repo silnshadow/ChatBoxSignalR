@@ -20,17 +20,13 @@ jobs:
 
     strategy:
       matrix:
-        targetplatform: [x86, x64]
+        targetplatform: [x64]
 
     runs-on: windows-latest
 
     env:
-      App_Packages_Directory: AppPackages
       Solution_Path: ChatBoxSignalR.sln
-      Test_Project_Path: MyWpfApp.Tests\MyWpfApp.Tests.csproj
       Wpf_Project_Path: ChatBoxClinet\ChatBoxClinet.csproj
-      Wap_Project_Directory: ChatBoxClinet.Package
-      Wap_Project_Name: ChatBoxClinet.Package.wapproj
       Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
 
     steps:
@@ -54,16 +50,6 @@ jobs:
     # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.1
-
-    # Update the version before build
-    - name: Update manifest version
-      run: |
-        [xml]$manifest = get-content ".\$env:Wap_Project_Directory\Package.appxmanifest"
-        $manifest.Package.Identity.Version = "$env:NBGV_SimpleVersion.0"
-        $manifest.save(".\$env:Wap_Project_Directory\Package.appxmanifest")
-    # Test
-    - name: Execute Unit Tests
-      run: dotnet test $env:Test_Project_Path
 
     # Restore the application
     - name:  Restore the Wpf application to populate the obj folder
