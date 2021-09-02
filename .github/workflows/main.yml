@@ -18,10 +18,6 @@ jobs:
 
   build:
 
-    strategy:
-      matrix:
-        targetplatform: [X84,x64]
-
     runs-on: windows-latest
 
     env:
@@ -57,20 +53,3 @@ jobs:
       env:
         Configuration: Debug
         RuntimeIdentifier: win-${{ matrix.targetplatform }}
-
-    # Build the Windows Application Packaging project
-    - name: Build the Windows Application Packaging Project (wapproj)
-      run: msbuild $env:Solution_Path /p:Platform="Any CPU" /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle
-      env:
-        AppxBundle: Never
-        BuildMode: SideloadOnly
-        Configuration: Debug
-        TargetPlatform: ${{ matrix.targetplatform }}
-
-
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\${{ env.App_Packages_Directory }}
