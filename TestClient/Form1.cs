@@ -28,7 +28,7 @@ namespace TestClient
             {
                 var url = ConfigurationManager.AppSettings["ChatHubEndPoint"];
                 hubConnection = new HubConnection(url);
-                HubProxy = hubConnection.CreateHubProxy("ChatHub");
+                HubProxy = hubConnection.CreateHubProxy("ChatBoxHub");
                 await hubConnection.Start();
                 Execute();
 

@@ -5,21 +5,14 @@ namespace ChatBox.SignalServer
 {
     public interface IClient
     {
-        void BroadcastImageMessage(byte[] img);
-        void BroadcastTextMessage(dynamic name, string message);
-        System.Collections.Generic.List<User> Login(string name, byte[] photo);
-        void Logout();
-        Task OnDisconnected(bool stopCalled);
-        Task OnReconnected();
-        void Typing(string recepient);
-        void UnicastImageMessage(string recepient, byte[] img);
-        void UnicastTextMessage(string recepient, string message);
-        void ParticipantDisconnection(string userName);
-        void ParticipantReconnection(string userName);
-        void ParticipantLogin(User newUser);
-        void ParticipantLogout(dynamic name);
-        void BroadcastPictureMessage(dynamic name, byte[] img);
-        void UnicastPictureMessage(dynamic sender, byte[] img);
-        void ParticipantTyping(dynamic sender);
+        void ParticipantDisconnection(string name);
+        void ParticipantReconnection(string name);
+        void ParticipantLogin(User client);
+        void ParticipantLogout(string name);
+        void BroadcastTextMessage(string sender, string message);
+        void BroadcastPictureMessage(string sender, byte[] img);
+        void UnicastTextMessage(string sender, string message);
+        void UnicastPictureMessage(string sender, byte[] img);
+        void ParticipantTyping(string sender);
     }
 }

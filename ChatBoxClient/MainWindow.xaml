@@ -7,7 +7,10 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:ChatBoxClient"
+        xmlns:data="clr-namespace:ChatBoxClient.Data"
         Background="{DynamicResource MaterialDesignPaper}"
+        DataContext="{Binding Source={StaticResource VMLocator}, Path=MainVM}"
+        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type data:SampleMainWindowViewModel}}"
         Title="ChatBox" Height="450" Width="670" TitleCharacterCasing="Normal" 
         ShowTitleBar="True" BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
         mc:Ignorable="d">
@@ -19,7 +22,27 @@
             <i:InvokeCommandAction Command="{Binding LogoutCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    <!--<Grid
+        Margin="150"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Center"
+        >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0"  Background="LightGray" Text="UserName"/>
+        <TextBox Grid.Column="1" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBlock Grid.Row="1"  Background="LightGray" Text="Password"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Button Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="100"/>
+    </Grid>-->
     <Grid>
-        
+        <ContentControl Content="{Binding}" Style="{StaticResource ChatContentStyle}"/>
     </Grid>
 </metro:MetroWindow>
