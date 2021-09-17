@@ -10,9 +10,24 @@ using System.Threading.Tasks;
 
 namespace ChatBox.SignalServer
 {
-    public class ChatHub : Hub<IClient>
+    public class ChatBoxHub : Hub<IClient>
     {
         private static ConcurrentDictionary<string, User> ChatClients = new ConcurrentDictionary<string, User>();
+        public ChatBoxHub()
+        {
+            User newUser = new User { Name = "Naga", ID = "123", Photo = null };
+            ChatClients.TryAdd("Naga",newUser);
+        }
+
+        /// <summary>
+        /// This is only used for testing connection
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public string getdetails(string user)
+        {
+            return "Hi" + user;
+        }
 
         public override Task OnDisconnected(bool stopCalled)
         {
@@ -38,16 +53,27 @@ namespace ChatBox.SignalServer
 
         public List<User> Login(string name, byte[] photo)
         {
-            if (!ChatClients.ContainsKey(name))
+            try
             {
-                Console.WriteLine($"++ {name} logged in");
-                List<User> users = new List<User>(ChatClients.Values);
-                User newUser = new User { Name = name, ID = Context.ConnectionId, Photo = photo };
-                var added = ChatClients.TryAdd(name, newUser);
-                if (!added) return null;
-                Clients.CallerState.UserName = name;
-                Clients.Others.ParticipantLogin(newUser);
-                return users;
+                if (name != null)
+                {
+                    if (!ChatClients.ContainsKey(name))
+                    {
+                        Console.WriteLine($"++ {name} logged in");
+                        List<User> users = new List<User>(ChatClients.Values);
+                        User newUser = new User { Name = name, ID = Context.ConnectionId, Photo = photo };
+                        var added = ChatClients.TryAdd(name, newUser);
+                        if (!added) return null;
+                        Clients.CallerState.UserName = name;
+                        Clients.Others.ParticipantLogin(newUser);
+                        return users;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.InnerException.Message);
             }
             return null;
         }
@@ -108,11 +134,19 @@ namespace ChatBox.SignalServer
 
         public void Typing(string recepient)
         {
-            if (string.IsNullOrEmpty(recepient)) return;
-            var sender = Clients.CallerState.UserName;
-            User client = new User();
-            ChatClients.TryGetValue(recepient, out client);
-            Clients.Client(client.ID).ParticipantTyping(sender);
+            try
+            {
+                if (string.IsNullOrEmpty(recepient)) return;
+                var sender = Clients.CallerState.UserName;
+                User client = new User();
+                ChatClients.TryGetValue(recepient, out client);
+                Clients.Client(client.ID).ParticipantTyping(sender);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }
